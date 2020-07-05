@@ -1,0 +1,17 @@
+query Projects{
+    projects{
+		Title
+        What
+        When
+        Who
+        How
+        Preview{
+            url
+        }
+        Gallery{
+            images{
+                url
+            }
+        }
+    }
+}

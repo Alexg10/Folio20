@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects",
+  "info": {
+    "name": "Projects"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "What": {
+      "type": "text"
+    },
+    "Who": {
+      "type": "string"
+    },
+    "When": {
+      "type": "string"
+    },
+    "How": {
+      "type": "string"
+    },
+    "Preview": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "Urllink": {
+      "type": "string"
+    },
+    "Subtitle": {
+      "type": "string"
+    },
+    "Url": {
+      "type": "string"
+    },
+    "Gallery": {
+      "type": "component",
+      "repeatable": true,
+      "component": "gallery.gallery"
+    }
+  }
+}

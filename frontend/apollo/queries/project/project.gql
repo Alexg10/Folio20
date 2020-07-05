@@ -1,0 +1,21 @@
+query Projects($id: ID!){
+    project( id :$id){
+		Title
+        Subtitle
+        What
+        When
+        Who
+        How
+        Urllink
+        Url
+        Preview{
+            url
+        }
+        Gallery{
+            images{
+                url
+                name
+            }
+        }
+    }
+}
