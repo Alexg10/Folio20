@@ -2,7 +2,7 @@
   "name": "Strapi",
   "description": "Strapi Heroku deployment",
   "keywords": ["strapi", "heroku"],
-  "repository": "https://github.com/strapi/strapi-starter-nuxt-blog",
+  "repository": "https://github.com/Alexg10/Folio20",
   "env": {
     "PROJECT_PATH": {
       "description": "Backend project path",
@@ -10,15 +10,15 @@
       "value": "backend"
     },
     "CLOUDINARY_CLOUD_NAME": {
-      "description": "The 'Cloud name' of your Cloudinary account",
+      "description": "dadhhnrji",
       "required": true
     },
     "CLOUDINARY_API_KEY": {
-      "description": "The 'API Key' of your Cloudinary account",
+      "description": "487699452438645",
       "required": true
     },
     "CLOUDINARY_API_SECRET": {
-      "description": "The 'API Secret' of your Cloudinary account",
+      "description": "rpCPLzbipS8VO3c0QNWde630h0I",
       "required": true
     }
   },
