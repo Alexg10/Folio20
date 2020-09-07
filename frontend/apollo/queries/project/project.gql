@@ -1,5 +1,5 @@
-query Projects($id: ID!){
-    project( id :$id){
+query Projects($slug: String!){
+    projects( where: {slug: $slug}){
 		Title
         Subtitle
         What

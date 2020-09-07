@@ -10,9 +10,11 @@
                 </span>
 
             </div>
-            <div class="project-title">
-                {{currentProject.Title}}
-            </div>
+            <nuxt-link :to="currentProject.slug" class="project-title-link">
+                <div class="project-title">
+                    {{currentProject.Title}}
+                </div>
+            </nuxt-link>
         </div>
 
         <slick-slide
@@ -148,6 +150,11 @@
         font-size: 10.625rem;
         font-size: 5.625rem;
         font-weight: bold;
+        &-link{
+            &:hover{
+                text-decoration: none;
+            }
+        }
     }
     .project-slider{
         width: 870px;

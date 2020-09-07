@@ -1,12 +1,12 @@
 <template>
     <div class="project">  
         <div class="hero">
-            <div class="hero-subtitle">Website - {{project.Who}}</div>
+            <div class="hero-subtitle">Website - {{projects[0].Who}}</div>
             <div class="hero-title">
-                <span>{{project.Title}}</span>
+                <span>{{projects[0].Title}}</span>
             </div>
             <div class="cover-container">
-                <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + project.Preview.url}')` }" ></div>
+                <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + projects[0].Preview.url}')` }" ></div>
                 <div class="marker-trigger"></div>
             </div>
             <div class="hider">
@@ -16,29 +16,29 @@
         <div class="project-infos">
             <div class="project-infos-content">
                 <div class="project-infos-title-container">
-                    <div class="project-infos-title">{{project.Title}}</div>
+                    <div class="project-infos-title">{{projects[0].Title}}</div>
                 </div>
                 <div class="project-infos-w">
                     <div class="project-infos-column project-infos-who">
                         <div class="question">who?</div>
-                        <div class="answer">{{project.Who}}</div>
+                        <div class="answer">{{projects[0].Who}}</div>
                     </div>
                     <div class="project-infos-column project-infos-when">
                         <div class="question">when?</div>
-                        <div class="answer">{{project.When}}</div>
+                        <div class="answer">{{projects[0].When}}</div>
                     </div>
                     <div class="project-infos-column project-infos-what">
                         <div class="question">what?</div>
-                        <div class="answer">{{project.What}}</div>
+                        <div class="answer">{{projects[0].What}}</div>
                     </div>
                     <div class="project-infos-column project-infos-how">
                         <div class="question">how?</div>
-                        <div class="answer">{{project.How}}</div>
+                        <div class="answer">{{projects[0].How}}</div>
                     </div>
                     <div class="project-infos-column project-infos-link">
                         <div class="question">where?</div>
                         <div class="answer">
-                            <a :href="project.Urllink" target="_blank"></a>{{project.Url}}</div>
+                            <a :href="projects[0].Urllink" target="_blank"></a>{{projects[0].Url}}</div>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="splash"></div>
         <div class="horizontal-scroll">
             <div class="gallery">
-                <div class="gallery__images" v-for="(images,indexa) in project.Gallery" :key="'images-'+indexa">
+                <div class="gallery__images" v-for="(images,indexa) in projects[0].Gallery" :key="'images-'+indexa">
                     <div class="gallery__image" v-for="(image, index) in images.images" :key="'image-'+index">
                         <img :src="api_url + image.url" alt=""></g>
                     </div>
@@ -96,12 +96,12 @@
             };
         },
         apollo: {
-            project: {
+            projects: {
                 prefetch: true,
                 query: projectQuery,
                 variables(){
                     return {
-                        id : this.$route.params.id
+                        slug : this.$route.params.id
                     }
                 },
             }
@@ -115,7 +115,7 @@
             }
         },
         mounted() {
-
+            
             ScrollTrigger.create({
                 trigger: ".hero",
                 start: "top top", 
@@ -160,6 +160,13 @@
                     scrub: 1,
                     pin: ".horizontal-scroll",
                     onUpdate: ({progress, direction, isActive}) =>{
+                        console.log(progress);
+                        if(progress > 0.27){
+                            document.querySelector('.project-infos').classList.add("uk-invisible");
+                        }else{
+                            document.querySelector('.project-infos').classList.remove("uk-invisible");
+                        }
+
                         if(progress > 0.98){
                             document.querySelector('.gallery').classList.add("red");
                             document.querySelector('.next-project').classList.add("red");
