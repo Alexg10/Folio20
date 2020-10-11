@@ -1,5 +1,6 @@
 <template>
     <div class="project">  
+        {{currentProject}}
         <div class="hero">
             <div class="hero-subtitle">Website - {{projects[0].Who}}</div>
             <div class="hero-title">
@@ -83,6 +84,8 @@
 
 <script>
     import projectQuery from "~/apollo/queries/project/project";
+
+    import { mapActions, mapGetters } from 'vuex'
     import { gsap } from "gsap/dist/gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -106,7 +109,16 @@
                 },
             }
         },
+        computed: {
+            ...mapGetters({
+                currentProject: "projects/currentProject",
+            })
+        },
         methods: {
+            ...mapActions({
+                setProject: "project/initProject"
+
+            }),
             revealNextProject(){
                 document.querySelector('.next-project-name').classList.add('visible');
             },
@@ -115,6 +127,9 @@
             }
         },
         mounted() {
+            this.$store.dispatch('projects/initProject');
+
+            console.log(this.$store.state.projects.currentProject);
             
             ScrollTrigger.create({
                 trigger: ".hero",
@@ -152,7 +167,7 @@
             gsap.to(horizontalScroll, {
                 x: () => -(horizontalScroll.scrollWidth - document.documentElement.clientWidth) + "px",
                 ease: "none",
-                scrub: 0.5,
+                scrub: 1,
                 scrollTrigger: {
                     trigger: horizontalScroll,
                     invalidateOnRefresh: true,
