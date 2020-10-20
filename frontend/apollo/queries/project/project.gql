@@ -17,5 +17,9 @@ query Projects($slug: String!){
                 name
             }
         }
+        Nextproject{
+          Title
+					slug
+        }
     }
 }

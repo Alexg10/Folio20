@@ -1,5 +1,5 @@
 <template>
-    <div class="project">  
+    <div class="project">
         <div class="hero">
             <div class="hero-subtitle">Website - {{projects[0].Who}}</div>
             <div class="hero-title">
@@ -71,10 +71,12 @@
                             </g>
                         </g>
                     </svg>
-                    <span>Next-project</span>
+                    <nuxt-link :to="projects[0].Nextproject.slug">
+                      <span>Next-project</span>
+                    </nuxt-link>
                 </div>
                 <div class="next-project-name">
-                    Cisbio
+                    {{projects[0].Nextproject.Title}}
                 </div>
             </div>
         </div>
@@ -82,6 +84,7 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
     import projectQuery from "~/apollo/queries/project/project";
     import { gsap } from "gsap/dist/gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -107,6 +110,9 @@
             }
         },
         methods: {
+            ...mapActions({
+                curentP: 'projects/current'
+            }),
             revealNextProject(){
                 document.querySelector('.next-project-name').classList.add('visible');
             },
@@ -115,10 +121,11 @@
             }
         },
         mounted() {
-            
+            this.curentP(this.projects[0].Title);
+
             ScrollTrigger.create({
                 trigger: ".hero",
-                start: "top top", 
+                start: "top top",
                 end: "bottom-=230px ",
                 pin: ".hero-title",
                 onLeave: ({progress, direction, isActive}) => {
@@ -141,7 +148,7 @@
             });
             ScrollTrigger.create({
                 trigger: "body",
-                start: "top top", 
+                start: "top top",
                 end: "170px ",
                 pin: ".hero-subtitle",
                 // markers: true,
@@ -428,7 +435,7 @@
                 transform: translate(0, -50%) rotate(-90deg);
                 transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
             }
-        }  
+        }
         .next-project-link{
             position: relative;
             transform: translateX(0px);
@@ -450,7 +457,7 @@
                 transform: translateX(0px) translateY(-50%);
                 transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
             }
-        } 
+        }
     }
 
 </style>

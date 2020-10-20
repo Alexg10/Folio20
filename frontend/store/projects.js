@@ -1,5 +1,5 @@
 export const state = () => ({
-    currentProject: "Project Name",
+    currentProject: "",
 })
 
 export const getters = {
@@ -9,9 +9,13 @@ export const getters = {
 }
 
 export const mutations = {
-
+  currentProject(state, current){
+    state.currentProject = current;
+  }
 }
 
 export const actions = {
-
+  current({commit}, current) {
+    commit('currentProject', current);
+  }
 }
