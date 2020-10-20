@@ -84,8 +84,8 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
     import projectQuery from "~/apollo/queries/project/project";
+    import { mapActions, mapGetters } from 'vuex'
     import { gsap } from "gsap/dist/gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -108,6 +108,11 @@
                     }
                 },
             }
+        },
+        computed: {
+            ...mapGetters({
+                currentProject: "projects/currentProject",
+            })
         },
         methods: {
             ...mapActions({
@@ -159,7 +164,7 @@
             gsap.to(horizontalScroll, {
                 x: () => -(horizontalScroll.scrollWidth - document.documentElement.clientWidth) + "px",
                 ease: "none",
-                scrub: 0.5,
+                scrub: 1,
                 scrollTrigger: {
                     trigger: horizontalScroll,
                     invalidateOnRefresh: true,
