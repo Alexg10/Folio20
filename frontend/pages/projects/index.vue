@@ -10,7 +10,7 @@
                 </span>
 
             </div>
-            <nuxt-link :to="currentProject.slug" class="project-title-link">
+            <nuxt-link :to="'/projects/' + currentProject.slug" class="project-title-link">
                 <div class="project-title">
                     {{currentProject.Title}}
                 </div>
