@@ -1,17 +1,17 @@
 <template>
     <div class="projects">
-        <div class="project-infos">
-            <div class="project-nb">
-                <span class="project-current-index">
+        <div class="projects-infos">
+            <div class="projects-nb">
+                <span class="projects-current-index">
                     0{{this.currentIndex + 1}}
                 </span>
-                <span class="project-count">
+                <span class="projects-count">
                     0{{projectsLenght}}
                 </span>
 
             </div>
-            <nuxt-link :to="'/projects/' + currentProject.slug" class="project-title-link">
-                <div class="project-title">
+            <nuxt-link :to="'/projects/' + currentProject.slug" class="projects-title-link">
+                <div class="projects-title">
                     {{currentProject.Title}}
                 </div>
             </nuxt-link>
@@ -19,7 +19,7 @@
 
         <slick-slide
             ref="slick"
-            class="project-slider"
+            class="projects-slider"
             :options="slickOptions"
             @init="handleInit"
             @afterChange="handleAfterChange"
@@ -114,25 +114,27 @@
         position: relative;
     }
     .slide-project{
-            width: 400px;
+        width: 400px;
+        height: 510px;
+        img{
             height: 510px;
-            img{
-                height: 510px;
-                object-fit: cover;
-            }
+            object-fit: cover;
+        }
     }
-    .project-infos{
+    .projects-infos{
         position: absolute;
         top: 50%;
         left: 6rem;
         transform: translateY(-50%);
         z-index: 9;
-        .project-nb{
+        .projects-nb{
             color: $grey;
-            .project-current-index{
+            .projects-current-index{
                 position: relative;
                 color: $black;
                 margin-right: 50px;
+                display: inline-block;
+                min-width: 26px;
                 &:after{
                     content: '';
                     position: absolute;
@@ -145,7 +147,7 @@
             }
         }
     }
-    .project-title{
+    .projects-title{
         color: $primary-color;
         font-size: 10.625rem;
         font-size: 5.625rem;
@@ -156,7 +158,7 @@
             }
         }
     }
-    .project-slider{
+    .projects-slider{
         width: 870px;
         position: absolute;
         right: -100px;

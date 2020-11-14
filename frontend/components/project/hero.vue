@@ -28,67 +28,13 @@
       'data'
     ],
     methods: {
-      animHero(){
-          console.log(document.querySelector('.hero').offsetHeight);
-          ScrollTrigger.create({
-            id: "lt",
-            trigger: ".hero",
-            start: "top top",
-            end: document.querySelector('.hero').offsetHeight,
-            pin: ".hero-title",
-            // onLeave: ({progress, direction, isActive}) => {
-            //     this.$refs.heroTitle.style.display = "none";
-            //     this.$refs.hider.style.display = "none";
-            //     this.$refs.projectInfosTitleContainer.classList.add('leave');
-            //     this.$refs.projectInfosW.classList.add('reveal');
-            //     // document.querySelector('.splash').classList.add('reveal');
-            // },
-            // onEnterBack: ({progress, direction, isActive}) => {
-            //     this.$refs.heroTitle.style.display = "block";
-            //     this.$refs.hider.style.display = "block";
-            //     this.$refs.projectInfosTitleContainer.classList.remove('leave');
-            //     this.$refs.projectInfosW.classList.remove('reveal');
-            //     // document.querySelector('.splash').classList.remove('reveal');
-            // }
-            onLeave: ({progress, direction, isActive}) => {
-                document.querySelector('.hero-title').style.display = "none";
-                document.querySelector('.hider').style.display = "none";
-                document.querySelector('.project-infos-title-container').classList.add('leave');
-                document.querySelector('.project-infos-w').classList.add('reveal');
-                // document.querySelector('.splash').classList.add('reveal');
-            },
-            onEnterBack: ({progress, direction, isActive}) => {
-                document.querySelector('.heroTitle').style.display = "block";
-                document.querySelector('.hider').style.display = "block";
-                document.querySelector('.project-infos-title-container').classList.remove('leave');
-                document.querySelector('.project-infos-w').classList.remove('reveal');
-                // document.querySelector('.splash').classList.remove('reveal');
-            }
-          });
 
-          ScrollTrigger.create({
-              id: "lt2",
-              trigger: "body",
-              start: "top top",
-              end: "170px ",
-              pin: ".hero-subtitle",
-              // markers: true,
-          });
-      }
     },
     mounted() {
-      setTimeout(() => {
-          this.animHero();
-      },500)
+
     },
     destroyed(){
-      console.log("destroyedHero");
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      let triggers = ScrollTrigger.getAll();
-      triggers.forEach( trigger => {
-        console.log(trigger);
-        trigger.kill();
-      });
+
     }
   }
 </script>
