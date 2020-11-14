@@ -1,18 +1,6 @@
 <template>
-  <div class="project">
-      <div class="hero">
-          <div class="hero-subtitle">Website - {{data.Who}}</div>
-          <div class="hero-title" ref="heroTitle">
-              <span>{{data.Title}}</span>
-          </div>
-          <div class="cover-container">
-              <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + data.Preview.url}')` }" ></div>
-              <div class="marker-trigger"></div>
-          </div>
-          <div class="hider" ref="hider">
-              <div class="hider-ref"></div>
-          </div>
-      </div>
+  <div class="project" :key="data.slug">
+      <hero :data="data"></hero>
       <div class="project-infos" ref="projectInfos">
           <div class="project-infos-content">
               <div class="project-infos-title-container" ref="projectInfosTitleContainer">
@@ -88,16 +76,22 @@
   import { gsap } from "gsap/dist/gsap";
   import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
+  import hero from '~/components/project/hero'
+
   export default {
     data() {
       return {
         api_url: process.env.strapiBaseUri,
-        heighPosition: 0
+        heighPosition: 0,
+        horizontalScrollOW: 0
       }
     },
     props: [
       'data'
     ],
+    components: {
+      hero
+    },
     methods: {
         revealNextProject(e){
             e.fromElement.lastChild.classList.add('visible');
@@ -106,27 +100,9 @@
             e.fromElement.nextElementSibling.classList.remove('visible');
         },
         anim(){
-          ScrollTrigger.create({
-            id: "lt",
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom-=230px ",
-            pin: ".hero-title",
-            onLeave: ({progress, direction, isActive}) => {
-                this.$refs.heroTitle.style.display = "none";
-                this.$refs.hider.style.display = "none";
-                this.$refs.projectInfosTitleContainer.classList.add('leave');
-                this.$refs.projectInfosW.classList.add('reveal');
-                // document.querySelector('.splash').classList.add('reveal');
-            },
-            onEnterBack: ({progress, direction, isActive}) => {
-                this.$refs.heroTitle.style.display = "block";
-                this.$refs.hider.style.display = "block";
-                this.$refs.projectInfosTitleContainer.classList.remove('leave');
-                this.$refs.projectInfosW.classList.remove('reveal');
-                // document.querySelector('.splash').classList.remove('reveal');
-            }
-          });
+
+
+          setTimeout(() => {
 
           ScrollTrigger.create({
               id: "lt2",
@@ -137,35 +113,37 @@
               // markers: true,
           });
 
-          let horizontalScroll = this.$refs.horizontalScroll;
-          let horizontalScrollOW = horizontalScroll.offsetWidth;
-          console.log(horizontalScrollOW);
+            let horizontalScroll = this.$refs.horizontalScroll;
+            this.horizontalScrollOW = horizontalScroll.offsetWidth;
+            console.log(this.horizontalScrollOW);
 
-          gsap.to(horizontalScroll, {
-              x: () => -(horizontalScroll.scrollWidth - document.documentElement.clientWidth) + "px",
-              ease: "none",
-              scrollTrigger: {
-                  id: "lt3",
-                  trigger: horizontalScroll,
-                  invalidateOnRefresh: true,
-                  end: () => "+=" + horizontalScrollOW,
-                  scrub: 1,
-                  pin: ".horizontal-scroll",
-                  onUpdate: ({progress, direction, isActive}) =>{
-                      if(progress > 0.27){
-                          this.$refs.projectInfos.classList.add("uk-invisible");
-                      }else{
-                          this.$refs.projectInfos.classList.remove("uk-invisible");
-                      }
-                      if(progress > 0.98){
-                          this.$refs.gallery.classList.add("red");
-                          this.$refs.nextProject.classList.add("red");
-                      }else{
-                          this.$refs.gallery.classList.remove("red");
-                          this.$refs.nextProject.classList.remove("red");
-                      }
-                  }
-              }
+            gsap.to(horizontalScroll, {
+                x: () => -(horizontalScroll.scrollWidth - document.documentElement.clientWidth) + "px",
+                ease: "none",
+                scrollTrigger: {
+                    id: "lt3",
+                    trigger: horizontalScroll,
+                    invalidateOnRefresh: true,
+                    end: () => "+=" + this.horizontalScrollOW,
+                    scrub: 1,
+                    // markers: true,
+                    pin: ".horizontal-scroll",
+                    onUpdate: ({progress, direction, isActive}) =>{
+                        if(progress > 0.27){
+                            this.$refs.projectInfos.classList.add("uk-invisible");
+                        }else{
+                            this.$refs.projectInfos.classList.remove("uk-invisible");
+                        }
+                        if(progress > 0.98){
+                            this.$refs.gallery.classList.add("red");
+                            this.$refs.nextProject.classList.add("red");
+                        }else{
+                            this.$refs.gallery.classList.remove("red");
+                            this.$refs.nextProject.classList.remove("red");
+                        }
+                    }
+                }
+            })
           })
         }
     },
@@ -175,9 +153,10 @@
     },
     destroyed(){
       console.log("destroyed");
-      // ScrollTrigger.getAll().forEach(t => t.kill());
+      ScrollTrigger.getAll().forEach(t => t.kill());
       let triggers = ScrollTrigger.getAll();
       triggers.forEach( trigger => {
+        console.log(trigger);
         trigger.kill();
       });
     }
@@ -188,59 +167,6 @@
     .project{
       position: relative;
       overflow: hidden;
-    }
-    .hero{
-        position: relative;
-        background-color: $white;
-        height: 100%;
-        box-sizing: border-box;
-        &-subtitle{
-            position: relative;
-            top: 170px;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-align: center;
-            margin-bottom: 120px;
-        }
-        &-title{
-            position: absolute;
-            top: 200px;
-            left: 50%;
-            width: 100%;
-            text-align: center;
-            color: $primary-color;
-            font-size: 10.625rem;
-            font-size: 8.625rem;
-            font-weight: bold;
-            transform: translateX(-50%);
-            z-index: 9;
-            overflow: hidden;
-        }
-        &-cover{
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            background-size: cover;
-            background-position: 50%;
-        }
-    }
-    .cover-container{
-        top: 320px;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        z-index: -1;
-    }
-    .hider{
-        position: absolute;
-        bottom: -200px;
-        width: 100%;
-        height: 200px;
-        background: white;
-        z-index: 99;
-        overflow: hidden;
     }
     .splash{
         position: fixed;
