@@ -50,13 +50,9 @@
                 //     this.$refs.projectInfos.classList.remove("uk-invisible");
                 // }
                 if(progress > 0.98){
-                    galleryImage.forEach( gallery => {
-                      gallery.classList.add("red");
-                    });
+                  document.body.classList.add("bg-red");
                 }else{
-                    galleryImage.forEach( gallery => {
-                      gallery.classList.remove("red");
-                    });
+                  document.body.classList.remove("bg-red");
                 }
             }
           }
@@ -102,7 +98,7 @@
         object-fit: cover;
         background-color: $white;
         transition: background-color 0.5s ease;
-        &.red{
+        .bg-red &{
           background: $primary-color;
           transition: background-color 0.5s ease;
           .next-project span{

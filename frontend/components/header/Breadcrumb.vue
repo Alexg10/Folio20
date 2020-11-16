@@ -30,18 +30,33 @@
             padding-left: 10px;
             color: $black;
             padding-left: 20px;
+            transition: color 0.5s ease;
             &:after{
                 content: '/';
                 color: $black;
                 position: absolute;
                 top: 0;
                 left: 8px;
+                transition: color 0.5s ease;
             }
             &:last-of-type{
                 color: $primary-color;
             }
             a{
-                color: $black
+                color: $black;
+                transition: color 0.5s ease;
+            }
+            .bg-red &{
+              color: $white;
+              transition: color 0.5s ease;
+              &:after{
+                color: $white;
+                transition: color 0.5s ease;
+              }
+              a{
+                color: $white;
+                transition: color 0.5s ease;
+              }
             }
         }
     }

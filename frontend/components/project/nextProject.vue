@@ -1,6 +1,6 @@
 <template>
     <div class="next-project" ref="nextProject">
-        <div class="next-project-link">
+        <div class="next-project-link" @mouseenter="revealNextProject" @mouseleave="hideNextProject" >
             <svg width="25px" height="12px" viewBox="0 0 25 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="next-arrow">
                 <defs>
                     <path d="M20.035062,7.20713701 C19.7591217,6.92771933 19.3066628,6.93134029 19.0262573,7.21588767 C18.7455542,7.5001333 18.7416845,7.95909042 19.0173272,8.2385081 L22.5512693,11.8205462 L0.707264696,11.8205462 C0.317316568,11.8205462 4.61436445e-14,12.1476399 4.61436445e-14,12.5498686 C4.61436445e-14,12.9520973 0.317316568,13.279191 0.707264696,13.279191 L22.5509716,13.279191 L19.0173272,16.8612291 C18.7416845,17.1409485 18.7455542,17.5996039 19.0262573,17.8841513 C19.3066628,18.1686987 19.7591217,18.1723196 20.035062,17.8926002 L24.7960012,13.0664594 C24.9356086,12.9249401 25.0028821,12.7375552 24.9999054,12.5498686 C25.0028821,12.3624837 24.9356086,12.1747971 24.7960012,12.0332778 L20.035062,7.20713701 Z" id="path-1"></path>
@@ -22,9 +22,11 @@
                 <span>Next-project</span>
             </nuxt-link>
         </div>
-        <div class="next-project-name" ref="nextProjectName">
+        <!-- <div class="next-project-name" ref="nextProjectName">
+          <span>
             {{ next.Title }}
-        </div>
+          </span>
+        </div> -->
     </div>
 </template>
 
@@ -32,7 +34,15 @@
   export default {
     props:[
       'next'
-    ]
+    ],
+    methods: {
+      // revealNextProject(e){
+      //     this.$refs.nextProjectName.classList.add('visible');
+      // },
+      // hideNextProject(e){
+      //     this.$refs.nextProjectName.classList.remove('visible');
+      // },
+    }
   }
 </script>
 
@@ -73,13 +83,19 @@
             color: $white;
             top: 50%;
             right: -93px;
-            transform: translate(50%, -50%) rotate(-90deg);
+            line-height: 88px;
+            transform: translate(50%, -50%);
             font-size: 5rem;
             font-weight: 600;
             transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
             &.visible{
-                transform: translate(0, -50%) rotate(-90deg);
+                transform: translate(0, -50%);
                 transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
+            }
+            span{
+              transform: rotate(-90deg);
+              width: 1px;
+              overflow: visible;
             }
         }
         .next-project-link{
