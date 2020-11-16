@@ -53,6 +53,7 @@
         // left: 50%;
         // transform: translate(-50%, -50%);
         width: 100%;
+        height: 100vh;
         max-width: 600px;
         margin: 0 auto ;
         &-w{
@@ -94,7 +95,7 @@
             color: transparent;
             .project-infos-title{
                 color:$black;
-                transform: translate(0px, 100px) rotate(3deg);
+                // transform: translate(0px, 100px) rotate(3deg);
                 transform-origin: left;
                 transition: 0.6s cubic-bezier(0.82, 0.33, 0.39, 0.95);
             }
@@ -109,10 +110,18 @@
                 }
             }
         }
+        &-content{
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+        }
         &-title{
             font-size: 5rem;
             font-weight: 600;
             color: transparent;
+            color: $black;
+
         }
         &-link{
             color: $primary-color;

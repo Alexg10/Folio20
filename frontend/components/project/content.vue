@@ -2,8 +2,7 @@
   <div class="project" :key="data.slug">
       <hero :data="data"></hero>
       <projectInfos :data="data" />
-      <gallery :gallery="data.Gallery" />
-      <nextProject :next="data.Nextproject" />
+      <gallery v-if="data" :data="data" />
   </div>
 </template>
 
@@ -14,10 +13,6 @@
   import hero from '~/components/project/hero'
   import projectInfos from '~/components/project/projectInfos'
   import gallery from '~/components/project/gallery'
-  import nextProject from '~/components/project/nextProject'
-
-
-
 
   export default {
     data() {
@@ -32,7 +27,6 @@
       hero,
       projectInfos,
       gallery,
-      nextProject
     },
     methods: {
       anim(){
@@ -40,11 +34,11 @@
       }
     },
     mounted() {
-          this.anim();
+      this.anim();
     },
     destroyed(){
       // ScrollTrigger.getAll().forEach(t => t.kill());
-      let triggers = ScrollTrigger.getAll();
+      // let triggers = ScrollTrigger.getAll();
     }
   }
 </script>

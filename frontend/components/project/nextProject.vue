@@ -23,22 +23,16 @@
             </nuxt-link>
         </div>
         <div class="next-project-name" ref="nextProjectName">
-            {{next.Title}}
+            {{ next.Title }}
         </div>
     </div>
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-
-      }
-    },
     props:[
       'next'
     ]
-
   }
 </script>
 
