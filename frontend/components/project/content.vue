@@ -48,7 +48,6 @@
 <style lang="scss" scoped>
     .project{
       position: relative;
-      overflow: hidden;
     }
     .splash{
         position: fixed;
@@ -57,14 +56,12 @@
         width: 100vw;
         height: 100vh;
         background-color: $primary-color;
-        z-index: 0;
         z-index: -1;
         transform: translate(0px, -100%);
         transition: 0.8s cubic-bezier(0.94, 0.24, 0.36, 1);
         transition-delay: 0.5s;
         &.reveal{
             transform: translate(0px, 100%);
-            transition: 1.1s cubic-bezier(0.94, 0.24, 0.36, 1);
             transition: 1.2s cubic-bezier(0.88, 0.3, 0.29, 0.82);
         }
     }
