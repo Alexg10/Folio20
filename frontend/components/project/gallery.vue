@@ -1,6 +1,6 @@
 <template>
     <div class="gallery" ref="gallery">
-        <div v-images-loaded="loaded" class="gallery__images" v-for="(images,i) in data.Gallery" :key="'images-'+i">
+        <div v-images-loaded="horizontalScroll" class="gallery__images" v-for="(images,i) in data.Gallery" :key="'images-'+i">
             <div class="gallery__image" v-for="(image, index) in images.images" :key="'image-'+index">
                 <img :src="api_url + image.url" alt="">
             </div>
@@ -12,8 +12,6 @@
 </template>
 
 <script>
-  import imagesLoaded from 'vue-images-loaded';
-
   import nextProject from '~/components/project/nextProject'
 
   import { gsap } from "gsap/dist/gsap";
