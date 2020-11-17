@@ -2,7 +2,9 @@
   <div class="project" :key="data.slug">
       <hero :data="data"></hero>
       <projectInfos :data="data" />
-      <gallery v-if="data" :data="data" />
+      <client-only>
+        <gallery v-if="data" :data="data" />
+      </client-only>
   </div>
 </template>
 

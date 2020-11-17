@@ -43,6 +43,7 @@
                 projects: [],
                 currentIndex: 0,
                 slickOptions: {
+                    speed: 800,
                     accessibility: true,
                     slidesToShow: 2,
                     infinite: true,
@@ -115,6 +116,7 @@
     }
     .slide-project{
         width: 400px;
+        min-width: 400px;
         height: 510px;
         img{
             height: 510px;
@@ -159,17 +161,27 @@
         }
     }
     .projects-slider{
-        width: 870px;
+        width: 875px;
         position: absolute;
         right: -100px;
         top: 50%;
         transform: translateY(-50%);
+        &:after{
+          content: '';
+          position: absolute;
+          left: 425px;
+          top: 0;
+          width: 80px;
+          height: 100%;
+          background-color: $white;
+
+        }
 
     }
     .slick-slide{
-        margin: 0 40px;
-            width: 400px;
-            height: 510px;
+        margin: 0;
+        width: 400px;
+        height: 510px;
     }
 
 </style>

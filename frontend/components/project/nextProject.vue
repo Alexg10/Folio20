@@ -36,12 +36,12 @@
       'next'
     ],
     methods: {
-      // revealNextProject(e){
+      revealNextProject(e){
       //     this.$refs.nextProjectName.classList.add('visible');
-      // },
-      // hideNextProject(e){
+      },
+      hideNextProject(e){
       //     this.$refs.nextProjectName.classList.remove('visible');
-      // },
+      },
     }
   }
 </script>

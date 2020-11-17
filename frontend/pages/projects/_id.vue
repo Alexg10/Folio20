@@ -1,8 +1,6 @@
 <template>
     <transition name="page" mode="out-in">
-      <div v-if="projects[0]">
-        <projectContent :data='projects[0]'></projectContent>
-      </div>
+      <projectContent v-if="projects[0]" :data='projects[0]'></projectContent>
       <div v-else class="project">
           LOADING
       </div>

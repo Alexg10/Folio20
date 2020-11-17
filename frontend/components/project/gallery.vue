@@ -1,6 +1,6 @@
 <template>
     <div class="gallery" ref="gallery">
-        <div class="gallery__images" v-for="(images,indexa) in data.Gallery" :key="'images-'+indexa">
+        <div v-images-loaded="loaded" class="gallery__images" v-for="(images,i) in data.Gallery" :key="'images-'+i">
             <div class="gallery__image" v-for="(image, index) in images.images" :key="'image-'+index">
                 <img :src="api_url + image.url" alt="">
             </div>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+  import imagesLoaded from 'vue-images-loaded';
+
   import nextProject from '~/components/project/nextProject'
 
   import { gsap } from "gsap/dist/gsap";
@@ -29,21 +31,20 @@
     props: [
       'data'
     ],
-    mounted() {
-      setTimeout(function(){
-        const container = document.querySelector('.gallery');
-        let galleryImage = document.getElementsByClassName('gallery__image');
-        console.log(container.scrollWidth);
+    methods: {
+      horizontalScroll(){
+        const container = this.$refs.gallery;
+        console.log(container.clientWidth);
+        console.log(document.documentElement.clientWidth);
         gsap.to(container, {
-          x: () => -(container.scrollWidth - document.documentElement.clientWidth) + "px",
+          x: () => -(container.clientWidth - document.documentElement.clientWidth) + "px",
           ease: "none",
           scrollTrigger: {
             trigger: container,
             invalidateOnRefresh: true,
             pin: true,
             scrub: 1,
-            end: () => "+=" + container.offsetWidth,
-            onUpdate: ({progress, direction, isActive}) =>{
+            onUpdate: ({progress, direction, isActive}) => {
                 // if(progress > 0.27){
                 //     this.$refs.projectInfos.classList.add("uk-invisible");
                 // }else{
@@ -57,12 +58,8 @@
             }
           }
         })
-      },200)
-
-    },
-    destroyed() {
-      let triggers = ScrollTrigger.getAll();
-    },
+      }
+    }
   }
 </script>
 
