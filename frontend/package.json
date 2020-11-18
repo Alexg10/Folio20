@@ -21,6 +21,7 @@
     "nuxt": "^2.0.0",
     "sass-loader": "^8.0.2",
     "uikit": "^3.2.3",
+    "vue-images-loaded": "^1.1.2",
     "vue-slick": "^1.1.15"
   },
   "devDependencies": {

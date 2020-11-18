@@ -46,6 +46,7 @@ export default {
     { src: "~/plugins/uikit.js", ssr: false },
     { src: '~/plugins/slick.js', ssr: false },
     { src: '~/plugins/gsap.js', ssr: false },
+    { src: '~/plugins/vue-imagesLoaded', ssr: false }
 
   ],
   /*
