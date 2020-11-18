@@ -22,11 +22,11 @@
                 <span>Next-project</span>
             </nuxt-link>
         </div>
-        <!-- <div class="next-project-name" ref="nextProjectName">
+        <div class="next-project-name" ref="nextProjectName">
           <span>
             {{ next.Title }}
           </span>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -80,11 +80,11 @@
         }
         .next-project-name{
             position: absolute;
-            color: $white;
-            top: 50%;
-            right: -93px;
+            color: #FFF;
+            top: calc(50% + 70px);
+            right: 0;
             line-height: 88px;
-            transform: translate(50%, -50%);
+            transform: translate(0%, -50%);
             font-size: 5rem;
             font-weight: 600;
             transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
@@ -93,6 +93,7 @@
                 transition: 0.6s cubic-bezier(0.66, 0.02, 0.31, 1);
             }
             span{
+              color: $white;
               transform: rotate(-90deg);
               width: 1px;
               overflow: visible;
