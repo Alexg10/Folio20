@@ -5,7 +5,7 @@
             <span>{{data.Title}}</span>
         </div>
         <div class="cover-container">
-            <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + data.Preview.url}')` }" ></div>
+            <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + data.Preview.url}')` }"></div>
             <div class="marker-trigger"></div>
         </div>
         <div class="hider" ref="hider">
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-  import { gsap } from "gsap/dist/gsap";
   import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
   export default {
@@ -27,14 +26,19 @@
     props: [
       'data'
     ],
-    methods: {
-
-    },
     mounted() {
-
+      const title = this.$refs.heroTitle;
+      ScrollTrigger.create({
+        id: 'pinTitle-' + this.data.Title,
+        trigger: '.project',
+        endTrigger: '.hider',
+        end: `bottom top+=${title.offsetTop + title.clientHeight}`,
+        pin: title,
+        markers: true
+      })
     },
     destroyed(){
-
+      ScrollTrigger.getById('pinTitle-' + this.data.Title).kill();
     }
   }
 </script>
@@ -61,7 +65,6 @@
             width: 100%;
             text-align: center;
             color: $primary-color;
-            font-size: 10.625rem;
             font-size: 8.625rem;
             font-weight: bold;
             transform: translateX(-50%);

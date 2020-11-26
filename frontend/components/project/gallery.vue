@@ -15,7 +15,6 @@
   import nextProject from '~/components/project/nextProject'
 
   import {gsap} from "gsap/dist/gsap";
-  import {ScrollTrigger} from "gsap/dist/ScrollTrigger";
 
   export default {
     data() {
