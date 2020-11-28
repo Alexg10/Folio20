@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       glitchIn: null,
+      glitchOut: null,
       skewRepeat: null
     }
   },
@@ -40,13 +41,16 @@ export default {
 
       // Glitch Anim
       this.glitchIn = gsap.timeline({paused: true, delay: 0.4 });
+      this.glitchOut = gsap.timeline({paused: true });
+
       this.skewRepeat = gsap.timeline({paused: true, repeat: -1, repeatDelay: 4, delay: 2 });
       const hello = this.$refs.homeHello;
       const project = this.$refs.homeProject;
+      let vm = this;
 
       this.glitchIn.fromTo(hello, {
-        y: -2,
-        x: 10,
+          y: -2,
+          x: 10,
         },{
           duration: 0.6,
           ease: "rough({ template: none.out, strength: 8, points: 8, taper: 'none', randomize: true, clamp:  false})",
@@ -60,8 +64,8 @@ export default {
       .to({}, 0.2, {})
       .to('.home-project', { duration: 0, display:'block' })
       .fromTo('.home-project', {
-        y: -2,
-        x: 10,
+          y: -2,
+          x: 10,
         },{
           duration: 0.5,
           ease: "rough({ template: none.out, strength: 8, points: 5, taper: 'none', randomize: true, clamp:  false})",
@@ -72,18 +76,36 @@ export default {
       .to({}, 0.5, {})
       .to('.home-project', { duration: 0.2, color: "#fff" });
 
-    this.skewRepeat.to('.home-project', {duration: 0.1,skewX:70,ease: "power4.inOut"})
-      .to('.home-project', {duration: 0.04, skewX:0,ease: "power4.inOut"})
-      .to('.home-project', {duration: 0.04, opacity:0})
-      .to('.home-project', {duration: 0.04, opacity:1})
-      .to('.home-project', {duration: 0.04, x:-30})
-      .to('.home-project', {duration: 0.04, x:0})
-      .to('.home-project', {duration: 0.04, opacity:0})
-      .to('.home-project', {duration: 0.04, opacity:1})
-      .to('.home-project', {duration: 0.04, x:-60})
-      .to('.home-project', {duration: 0.04, x:0})
-      .to('.home-project', 0.02, {scaleY:1.2,ease: "power4.inOut"})
-      .to('.home-project', {duration: 0.04, scaleY:1,ease: "power4.inOut"})
+      this.glitchOut.to('.home-project', {duration: 0.1,skewX:70,ease: "power4.inOut"})
+        .to('.home-project', {duration: 0.04, skewX:0,ease: "power4.inOut"})
+        .to('.home-project', {duration: 0.04, opacity:0})
+        .to('.home-project', { duration: 0, display:'none' })
+        .to(hello, { duration: 0, opacity: 1 })
+        .to(hello, {duration: 0.04, x:-60})
+        .to(hello, {duration: 0.04, x:0})
+        .to(hello, {duration: 0.02, scaleY:1.2,ease: "power4.inOut"})
+        .to(hello, {duration: 0.04, scaleY:1,ease: "power4.inOut"});
+
+      this.glitchIn.eventCallback("onComplete", function(){
+        vm.glitchOut.pause(0)
+      })
+      this.glitchOut.eventCallback("onComplete", function(){
+        vm.glitchIn.pause(0)
+      })
+
+
+      this.skewRepeat.to('.home-project', {duration: 0.1,skewX:70,ease: "power4.inOut"})
+        .to('.home-project', {duration: 0.04, skewX:0,ease: "power4.inOut"})
+        .to('.home-project', {duration: 0.04, opacity:0})
+        .to('.home-project', {duration: 0.04, opacity:1})
+        .to('.home-project', {duration: 0.04, x:-30})
+        .to('.home-project', {duration: 0.04, x:0})
+        .to('.home-project', {duration: 0.04, opacity:0})
+        .to('.home-project', {duration: 0.04, opacity:1})
+        .to('.home-project', {duration: 0.04, x:-60})
+        .to('.home-project', {duration: 0.04, x:0})
+        .to('.home-project', {duration: 0.02, scaleY:1.2,ease: "power4.inOut"})
+        .to('.home-project', {duration: 0.04, scaleY:1,ease: "power4.inOut"})
 
     },
     glitchPlay(){
@@ -91,7 +113,7 @@ export default {
       this.skewRepeat.play();
     },
     glitchReset(){
-      this.glitchIn.pause(0)
+      this.glitchOut.play();
     },
 
   },
