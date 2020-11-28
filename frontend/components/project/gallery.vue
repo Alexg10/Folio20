@@ -14,7 +14,8 @@
 <script>
   import nextProject from '~/components/project/nextProject'
 
-  import {gsap} from "gsap/dist/gsap";
+  import { gsap } from "gsap/dist/gsap";
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
   export default {
     data() {
@@ -36,6 +37,7 @@
           x: () => -(container.clientWidth - document.documentElement.clientWidth) + "px",
           ease: "none",
           scrollTrigger: {
+            id: 'pinGallery',
             trigger: container,
             invalidateOnRefresh: true,
             pin: true,
@@ -55,6 +57,9 @@
           }
         })
       }
+    },
+    destroyed() {
+      ScrollTrigger.getById('pinGallery').kill();
     }
   }
 </script>

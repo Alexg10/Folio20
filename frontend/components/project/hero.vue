@@ -5,18 +5,16 @@
             <span>{{data.Title}}</span>
         </div>
         <div class="cover-container">
-            <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + data.Preview.url}')` }"></div>
-            <div class="marker-trigger"></div>
+            <div class="hero-cover" :style="{ backgroundImage: `url('${api_url + data.Preview.url}')` }" ref="heroCover"></div>
         </div>
-        <div class="hider" ref="hider">
+        <div class="hider">
             <div class="hider-ref"></div>
         </div>
     </div>
 </template>
-
 <script>
-  import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
+  import { gsap } from 'gsap/dist/gsap';
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
   export default {
     data() {
       return {
@@ -27,37 +25,37 @@
       'data'
     ],
     methods: {
-      anim() {
-        const title = this.$refs.heroTitle;
-        const scroll = ScrollTrigger.getById('pinTitle');
-
-        if(scroll){
-          console.log("refresh");
-          scroll.kill();
-        }else{
-          ScrollTrigger.create({
-            id: 'pinTitle',
-            trigger: '.hero',
-            endTrigger: '.hider',
-            end: `bottom top+=${title.offsetTop + title.clientHeight}`,
-            pin: '.hero-title',
-            markers: true
-          })
+        anim() {
+            const heroTitle = this.$refs.heroTitle;
+            const heroCover = this.$refs.heroCover;
+            ScrollTrigger.create({
+                id: 'pinTitle',
+                trigger: '.hero',
+                endTrigger: '.hider',
+                end: `bottom top+=${heroTitle.offsetTop + heroTitle.clientHeight}`,
+                pin: heroTitle
+            }).refresh();
+            gsap.to(heroCover, {
+                scrollTrigger: {
+                    id: 'pinCover',
+                    trigger: '.hero',
+                    endTrigger: '.project-infos-w',
+                    end: 'center center',
+                    scrub: true
+                },
+                y: '-70vh'
+            });
         }
-
-      }
     },
     mounted() {
       this.anim();
-
     },
     destroyed(){
-
-
+        ScrollTrigger.getById('pinTitle').kill();
+        ScrollTrigger.getById('pinCover').kill();
     }
   }
 </script>
-
 <style lang="scss" scoped>
     .hero{
         position: relative;
@@ -88,6 +86,7 @@
         }
         &-cover{
             position: relative;
+            top: calc(45vh + 25%);
             width: 100%;
             height: 100vh;
             object-fit: cover;
