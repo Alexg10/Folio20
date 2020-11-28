@@ -26,19 +26,34 @@
     props: [
       'data'
     ],
+    methods: {
+      anim() {
+        const title = this.$refs.heroTitle;
+        const scroll = ScrollTrigger.getById('pinTitle');
+
+        if(scroll){
+          console.log("refresh");
+          scroll.kill();
+        }else{
+          ScrollTrigger.create({
+            id: 'pinTitle',
+            trigger: '.hero',
+            endTrigger: '.hider',
+            end: `bottom top+=${title.offsetTop + title.clientHeight}`,
+            pin: '.hero-title',
+            markers: true
+          })
+        }
+
+      }
+    },
     mounted() {
-      const title = this.$refs.heroTitle;
-      ScrollTrigger.create({
-        id: 'pinTitle-' + this.data.Title,
-        trigger: '.project',
-        endTrigger: '.hider',
-        end: `bottom top+=${title.offsetTop + title.clientHeight}`,
-        pin: title,
-        markers: true
-      })
+      this.anim();
+
     },
     destroyed(){
-      ScrollTrigger.getById('pinTitle-' + this.data.Title).kill();
+
+
     }
   }
 </script>

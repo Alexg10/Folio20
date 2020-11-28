@@ -1,6 +1,9 @@
 <template>
   <div class="project" :key="data.slug">
-      <hero :data="data"></hero>
+      <client-only>
+        <hero :data="data"></hero>
+      </client-only>
+
       <projectInfos :data="data" />
       <client-only>
         <gallery v-if="data" :data="data" />
