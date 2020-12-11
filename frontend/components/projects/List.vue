@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="projects-infos">
-        <div class="projects-nb">
+        <!-- <div class="projects-nb">
             <span class="projects-current-index">
                 0{{this.currentIndex + 1}}
             </span>
@@ -10,91 +10,34 @@
             </span>
 
         </div>
-        <nuxt-link :to="'/projects/' + currentProject.slug" class="projects-title-link">
+        <nuxt-link v-if="currentProject" :to="'/projects/' + currentProject.slug" class="projects-title-link">
             <div class="projects-title">
                 {{currentProject.Title}}
             </div>
-        </nuxt-link>
+        </nuxt-link> -->
     </div>
-
-    <slick-slide
-        ref="slick"
-        class="projects-slider"
-        :options="slickOptions"
-        @init="handleInit"
-        @afterChange="handleAfterChange"
-        >
-            <div class="slide-project" v-for="(project, index) in projects" :key="index">
-                <div class="project-img">
-                    <img :src="api_url + project.Preview.url" alt="cover">
-                </div>
-            </div>
-    </slick-slide>
+    <client-only>
+      <ListSlider :projects="projects" />
+    </client-only>
   </div>
 </template>
 
 <script>
+  import {mapGetters, mapState } from 'vuex';
+
   export default {
     data() {
       return {
-          api_url: process.env.strapiBaseUri,
           currentIndex: 0,
-          slickOptions: {
-              speed: 800,
-              accessibility: true,
-              slidesToShow: 2,
-              infinite: true,
-              arrows: false,
-              focusOnSelect: true
-
-          },
       };
     },
-    props : [
-      "projects"
-    ],
     computed: {
-        cover(){
-            return this.projects[this.currentIndex].acfProjectFields.headerPicture.sourceUrl;
-        },
-        currentProject(){
-            return this.projects[this.currentIndex];
-        },
-        projectsLenght(){
-            return this.projects.length
-        }
-
-    },
-    methods: {
-        handleInit(event, slick) {
-            console.log('handleInit', event, slick);
-        },
-        handleAfterChange(event, slick, currentSlide) {
-            console.log(currentSlide);
-            this.currentIndex = currentSlide;
-            // currentProject;
-        },
-        keySlide(e) {
-            var vm = this;
-            document.onkeydown = function(e){
-                e = e || window.event;
-                if (e.keyCode == '38') {
-                    vm.$refs.slick.prev();
-                }
-                else if (e.keyCode == '40') {
-                    vm.$refs.slick.next();
-                }
-                else if (e.keyCode == '37') {
-                    vm.$refs.slick.prev();
-                }
-                else if (e.keyCode == '39') {
-                    vm.$refs.slick.next();
-                }
-            }
-        },
-    },
-    mounted() {
-        this.keySlide();
+      // ...mapGetters({
+      //   projects: 'projects/list'
+      // }),
+      ...mapState({
+        projects: state => state.projects.projects,
+      })
     }
   }
 </script>

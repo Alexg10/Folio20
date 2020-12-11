@@ -3,7 +3,7 @@
     <div class="home-hero uk-text-center">
       <div class="home__cta-container" @mouseenter="glitchPlay" @mouseleave="glitchReset">
         <h1 class="home-title home-hello" data-text="Hello" ref="homeHello">Hello</h1>
-        <nuxt-link to="/projects" class="home-title home-project" data-text="Projects" ref="homeProject">Projects</nuxt-link>
+        <div class="home-title home-project" data-text="Projects" ref="homeProject" @click="goToProjects">Projects</div>
       </div>
     </div>
     <div class="home-description uk-text-left">
@@ -22,26 +22,31 @@ export default {
     return {
       glitchIn: null,
       glitchOut: null,
+      letterAnim: null,
       skewRepeat: null
     }
   },
   methods: {
-    initAnim(){
+    mouseWeight(){
       // Variant weight Anim
+      let root = document.documentElement;
+
       document.body.onmousemove = e => {
         var w = window.innerWidth;
         var mousePosX = e.clientX;
         var pourcentage = (mousePosX / w) * 100;
         var weight = 900 * (pourcentage / 100);
         var font = document.getElementsByClassName("home-title");
-        for (var i = 0; i < font.length; i++) {
-          font[i].style['font-variation-settings'] = `"wght" ${weight}`;
-        }
+        root.style.setProperty('--font-weight', weight);
       }
+    },
+    initAnim(){
+
 
       // Glitch Anim
       this.glitchIn = gsap.timeline({paused: true, delay: 0.4 });
       this.glitchOut = gsap.timeline({paused: true });
+      this.letterAnim =  gsap.timeline({paused: true });
 
       this.skewRepeat = gsap.timeline({paused: true, repeat: -1, repeatDelay: 4, delay: 2 });
       const hello = this.$refs.homeHello;
@@ -94,7 +99,7 @@ export default {
       })
 
 
-      this.skewRepeat.to('.home-project', {duration: 0.1,skewX:70,ease: "power4.inOut"})
+      this.skewRepeat.to('.home-project', {duration: 0.1,skewX:10,ease: "power4.inOut"})
         .to('.home-project', {duration: 0.04, skewX:0,ease: "power4.inOut"})
         .to('.home-project', {duration: 0.04, opacity:0})
         .to('.home-project', {duration: 0.04, opacity:1})
@@ -110,21 +115,62 @@ export default {
     },
     glitchPlay(){
       this.glitchIn.play();
-      this.skewRepeat.play();
+      // this.skewRepeat.play();
     },
     glitchReset(){
       this.glitchOut.play();
     },
+    splitText(){
+        var word = document.querySelector(".home-project");
 
+        //ADD SPAN TO LETTERS
+        var wordContent      = word.textContent.trim();
+        var wordContentSplit = wordContent.split("");
+            word.innerHTML   = "";
+        var tabLetterLength  = [];
+
+        for(var i=0; i< wordContentSplit.length; i++){
+            var newSpan = document.createElement('span');
+            newSpan.style.display = "inline-block";
+            newSpan.setAttribute("class", "letter letter-"+i);
+            newSpan.innerHTML = wordContentSplit[i];
+            word.appendChild(newSpan);
+            tabLetterLength.push(i)
+        }
+    },
+    goToProjects(){
+      let vm = this;
+      document.querySelector('.home-project').classList.add('clicked');
+      this.letterAnim.to(".letter", { duration: 0.05, "--font-weight": 700, ease: "power4.inOut",  stagger: 0.08})
+        .to({}, 0.2, {})
+        .to(".home-project", { duration: 1, scale: 250, x:-50,  ease: "power4.inOut"});
+
+      this.letterAnim.play();
+      this.letterAnim.eventCallback("onComplete",function(){
+        console.log("pushed pager");
+        vm.$router.push({
+            path: '/projects'
+        })
+      })
+    }
   },
   mounted(){
+    this.mouseWeight();
+    this.splitText();
     this.initAnim();
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 
+  :root{
+    --font-weight: 100;
+    --font-weight-letter: 100;
+  }
+  .letter{
+    font-variation-settings: "wght" var(--font-weight);
+  }
   .home{
     display: flex;
     align-items: center;
@@ -170,6 +216,7 @@ export default {
         width: 100%;
         left: 0;
         text-align: center;
+        font-variation-settings: "wght" var(--font-weight);
         transform: translateX(calc(var(--left) * 100%));
         filter: drop-shadow(0 0 transparent);
         background-color: var(--bg);
@@ -181,6 +228,7 @@ export default {
       }
     }
     &-hello{
+      font-variation-settings: "wght" var(--font-weight);
       &:hover{
         &::after{
           animation: glitch-home 0.8s infinite alternate;
@@ -190,9 +238,19 @@ export default {
     &-project{
       display: none;
       &:hover{
+        animation: skewRepeat 3s infinite alternate;
+        animation-delay: 0.6s;
         &:after{
-          animation: glitch-project 0.9s alternate;
+          animation: glitch-home 1s infinite alternate, pause-between-iterations 7s infinite;
         }
+      }
+      &.clicked{
+        &:after{
+          display: none;
+        }
+      }
+      .letter{
+        font-variation-settings: "wght" var(--font-weight);
       }
     }
     &-description{
@@ -208,35 +266,28 @@ export default {
     --left: 0;
     z-index: 1;
   }
-  0% {
-    --v-height: 15%;
-  }
   20% {
     --left: .005;
     z-index: 1;
     color: $primary-color;
-
   }
   40% {
     --left: .01;
     --v-height: 20%;
     --top: 3;
     color: $black-light;
-
   }
   60% {
     --left: .03;
     --v-height: 25%;
     --top: 6;
     color: $primary-color;
-
   }
   80% {
     --left: .07;
     --v-height: 5%;
     --top: 8;
     color: $black-light;
-
   }
   100% {
     --left: .083;
@@ -244,42 +295,156 @@ export default {
     --top: 1;
   }
 }
+
 @keyframes glitch-project {
-  10%,30%,50%,90% {
+  10%,30%,50%,70%,90% {
     --top: 0;
     --left: 0;
+    z-index: 1;
   }
   0% {
     --v-height: 15%;
-    --top: 10;
   }
   20% {
-    --left: -.005;
-    color: $primary-color;
-  }
-  40% {
-    --left: -.01;
-    --v-height: 17%;
+    --left: .008;
+    --v-height: 20%;
     --top: 3;
-    color: $black-light;
+    z-index: 1;
+    color: $white;
 
   }
+  40% {
+    --left: .01;
+    --v-height: 20%;
+    --top: 5;
+    color: $white;
+    color: $primary-color;
+    z-index: -1;
+  }
   60% {
-    --left: -.03;
+    --left: .003;
     --v-height: 25%;
     --top: 6;
     color: $primary-color;
+    color: $white;
   }
   80% {
-    --left: .05;
-    --v-height: 45%;
+    --left: .07;
+    --v-height: 5%;
     --top: 8;
-    color: $black-light;
+    color: $white;
+    color: $primary-color;
+
+
   }
   100% {
-    --left: -.083;
+    --left: .083;
     --v-height: 30%;
     --top: 1;
+    color: $primary-color;
+
+  }
+}
+
+
+// @keyframes skewRepeat {
+//   8% {
+//     transform: skew(10);
+//   }
+//   16%{
+//     transform: skew(0);
+//   }
+//   24%{
+//     opacity:0
+//   }
+//   32%{
+//     opacity:1
+//   }
+//   40%{
+//     transform: translateX(-30px);
+//   }
+//   48%{
+//     transform: translateX(0);
+//   }
+//   56%{
+//     opacity:0
+//   }
+//   64%{
+//     opacity:1
+//   }
+//   72%{
+//     transform: translateX(-60px);
+//   }
+//   80%{
+//     transform: translateX(0);
+//   }
+//   88%{
+//     transform: scale(1.2);
+//   }
+//   94%{
+//     transform: scale(1);
+//   }
+//   100%{
+//     opacity:1
+//   }
+// }
+
+
+// @keyframes skewRepeat {
+//  0.571% {
+//     transform: skew(5);
+//   }
+//   1.143% {
+//     transform: skew(0);
+//   }
+//   2.857% {
+//     transform: translateX(-20px);
+//   }
+//   3.429% {
+//     transform: translateX(0);
+//   }
+//   4% {
+//     opacity: 0
+//   }
+//   4.571% {
+//     opacity: 1
+//   }
+//   5.143% {
+//     transform: translateX(-35px);
+//   }
+//   5.714% {
+//     transform: translateX(0);
+//   }
+//   6.286% {
+//     transform: scale(1.1);
+//   }
+//   6.714% {
+//     transform: scale(1);
+//   }
+//   7.143% {
+//     opacity: 1;
+//     transform: translate(0);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translate(0);
+//   }
+// }
+
+@keyframes pause-between-iterations {
+  /* Other animation is visible for 25% of the time */
+  0% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 1;
+  }
+  /* Other animation is hidden for 75% of the time */
+  19.1% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
 </style>

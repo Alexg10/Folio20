@@ -11,15 +11,15 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/apollo": "^4.0.0-rc17",
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/markdownit": "^1.2.7",
     "@nuxtjs/style-resources": "^1.0.0",
-    "graphql": "^14.5.8",
+    "graphql": "^15.4.0",
     "gsap": "^3.3.3",
     "jquery": "^3.5.1",
-    "node-sass": "^4.14.1",
-    "nuxt": "^2.0.0",
-    "sass-loader": "^8.0.2",
+    "node-sass": "^5.0",
+    "nuxt": "^2.14.0",
+    "sass-loader": "^10.1.0",
     "uikit": "^3.2.3",
     "vue-images-loaded": "^1.1.2",
     "vue-slick": "^1.1.15"

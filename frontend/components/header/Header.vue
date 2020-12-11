@@ -2,7 +2,7 @@
     <nav class="header uk-flex uk-flex-between uk-flex-middle">
         <div class="nav-left uk-flex uk-flex-bottom">
             <Logo />
-            <Breadcrumb />
+            <!-- <Breadcrumb /> -->
         </div>
         <Meet />
     </nav>
@@ -15,7 +15,7 @@
 
     export default {
         components : {
-            Logo, 
+            Logo,
             Breadcrumb,
             Meet
         }
